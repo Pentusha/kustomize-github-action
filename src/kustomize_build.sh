@@ -1,6 +1,19 @@
 #!/bin/bash
 
 function kustomize_build {
+    if [ -n ${kustomize_set_image} ]; then
+      echo "set image: info: set image ${kustomize_set_image}"
+      set_image_output=$(kustomize edit set image ${kustomize_set_image} 2>&1)
+      set_image_exit_code=${?}
+
+      # exit code 0 - success
+      if [ ${set_image_exit_code} -eq 0 ]; then
+          echo "set image: info: successfully set image ${kustomize_set_image}."
+          echo "${set_image_output}"
+          echo
+      fi
+    fi
+
     # gather output
     echo "build: info: kustomize build in directory ${kustomize_build_dir}."
     build_output=$(kustomize build ${kustomize_build_dir} 2>&1)
