@@ -24,6 +24,11 @@ function parse_inputs {
     if [ -n "${INPUT_KUSTOMIZE_OUTPUT_FILE}" ]; then
       kustomize_output_file=${INPUT_KUSTOMIZE_OUTPUT_FILE}
     fi
+
+    kustomize_set_image=""
+    if [ -n "${INPUT_KUSTOMIZE_SET_IMAGE}" ]; then
+      kustomize_set_image=${INPUT_KUSTOMIZE_SET_IMAGE}
+    fi
 }
 
 function install_kustomize {
