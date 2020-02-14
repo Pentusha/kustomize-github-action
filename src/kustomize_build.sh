@@ -1,6 +1,20 @@
 #!/bin/bash
 
 function kustomize_build {
+    # gather output
+    echo "build: info: kustomize build in directory ${kustomize_build_dir}."
+    build_output=$(kustomize build ${kustomize_build_dir} 2>&1)
+
+    build_exit_code=${?}
+
+    # exit code 0 - success
+    if [ ${build_exit_code} -eq 0 ];then
+        build_comment_status="Success"
+        echo "build: info: successfully executed kustomize build in ${kustomize_build_dir}."
+        echo "${build_output}"
+        echo
+    fi
+
     if [ -n ${kustomize_set_image} ]; then
       echo "set image: info: set image ${kustomize_set_image}"
       cd ${kustomize_build_dir}
@@ -14,20 +28,6 @@ function kustomize_build {
           echo "${set_image_output}"
           echo
       fi
-    fi
-
-    # gather output
-    echo "build: info: kustomize build in directory ${kustomize_build_dir}."
-    build_output=$(kustomize build ${kustomize_build_dir} 2>&1)
-
-    build_exit_code=${?}
-
-    # exit code 0 - success
-    if [ ${build_exit_code} -eq 0 ];then
-        build_comment_status="Success"
-        echo "build: info: successfully executed kustomize build in ${kustomize_build_dir}."
-        echo "${build_output}"
-        echo
     fi
 
     # exit code !0 - failure
