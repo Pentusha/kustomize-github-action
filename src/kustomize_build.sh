@@ -3,7 +3,9 @@
 function kustomize_build {
     if [ -n ${kustomize_set_image} ]; then
       echo "set image: info: set image ${kustomize_set_image}"
+      cd ${kustomize_build_dir}
       set_image_output=$(kustomize edit set image ${kustomize_set_image} 2>&1)
+      cd -
       set_image_exit_code=${?}
 
       # exit code 0 - success
